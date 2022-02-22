@@ -67,12 +67,19 @@ public class Pawn extends Piece{
                         legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
                     }
                 }
-
             }
             else if(currentCandidateOffset == 9 &&
-                    !((BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack() ||
-                            (BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceAlliance.isWhite())))){
+                    !((BoardUtils.FIRST_COLUMN[this.piecePosition] && this.pieceAlliance.isBlack() ||
+                            (BoardUtils.EIGHTH_COLUMN[this.piecePosition] && this.pieceAlliance.isWhite())))){
+                if(board.getTile(candidateDestinationCoordinate).isTileOccupied()){
+                    final Piece pieceOnCandidate = board.getTile(candidateDestinationCoordinate).getPiece();
 
+                    //piece on the destination (7) diagonally is occupied by an enemy piece, attack
+                    if(this.pieceAlliance != pieceOnCandidate.getPieceAlliance()){
+                        //TODO: attacking on piece promotion
+                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
+                    }
+                }
             }
         }
         return ImmutableList.copyOf(legalMoves);
