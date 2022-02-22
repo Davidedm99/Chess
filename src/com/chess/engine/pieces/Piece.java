@@ -9,10 +9,13 @@ public abstract class Piece {
 
     protected final int piecePosition;
     protected final Alliance pieceAlliance;             //Alliance as enum
+    protected final boolean isFirstMove;                //useful for pawns and king
 
     Piece(final int piecePosition, final Alliance pieceAlliance){
         this.pieceAlliance = pieceAlliance;
         this.piecePosition = piecePosition;
+        //TODO: adjust
+        this.isFirstMove = false;
     }
 
     public Alliance getPieceAlliance() {
@@ -21,4 +24,8 @@ public abstract class Piece {
 
     //all pieces will have a legal move and override this function depending on its behaviour
     public abstract Collection<Move> calculateLegalMoves(final Board board);
+
+    public boolean isFirstMove(){
+        return this.isFirstMove;
+    };
 }

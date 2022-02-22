@@ -32,4 +32,7 @@ public abstract class Move {
         }
     }
 
+    public static final class PawnJump extends Move{
+
+    }
 }

@@ -69,11 +69,11 @@ public class Bishop extends Piece {
     }
 
     //cover edge cases in which we're extreme right or left and an offset would send us in a wrong tile
-    public static final boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset){
+    private static final boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset){
         return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7);
     }
 
-    public static final boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset){
+    private static final boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset){
         return BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == 9 || candidateOffset == -7);
     }
 }

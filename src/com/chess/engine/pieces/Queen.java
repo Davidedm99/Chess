@@ -11,15 +11,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class Rook extends Piece{
+import static com.chess.engine.board.Move.*;
 
-    //rook is a sliding piece just like the bishop, we just need to change its vectors
-    public static final int[] CANDIDATE_VECTOR_COORDINATES = {-8, -1, 1, 8};
 
-    Rook(int piecePosition, Alliance pieceAlliance) {
+public class Queen extends Piece{
+
+    //union vector of bishop and rook
+    private final static int[] CANDIDATE_VECTOR_COORDINATES = {-9, -8, -7, -1, 1 ,7, 8, 9};
+
+    Queen(int piecePosition, Alliance pieceAlliance) {
         super(piecePosition, pieceAlliance);
     }
 
+    //copy paste of other moves
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
 
@@ -47,7 +51,7 @@ public class Rook extends Piece{
 
                     if(!candidateDestinationTile.isTileOccupied()){
                         //movement of the piece
-                        legalMoves.add(new Move.MajorMove(board, this, candidateDestinationCoordinate));
+                        legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
                     } else{
                         //check the piece that is occupying the tile to check if can be eaten or not
                         final Piece pieceAtDestination = candidateDestinationTile.getPiece();
@@ -56,7 +60,7 @@ public class Rook extends Piece{
                         //check if the piece alliance in the new tile is in the same alliance of ours
                         if(this.pieceAlliance != pieceAlliance){
                             //enemy piece, attacking move
-                            legalMoves.add(new Move.AttackMove(board, this, candidateDestinationCoordinate,
+                            legalMoves.add(new AttackMove(board, this, candidateDestinationCoordinate,
                                     pieceAtDestination));
                         }
                         //this break allows us to stop looping as soon as we found a piece, allied or not
@@ -70,10 +74,10 @@ public class Rook extends Piece{
 
     //cover edge cases in which we're extreme right or left and an offset would send us in a wrong tile
     private static final boolean isFirstColumnExclusion(final int currentPosition, final int candidateOffset){
-        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -1);
+        return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset == -9 || candidateOffset == 7 || candidateOffset == -1);
     }
 
     private static final boolean isEighthColumnExclusion(final int currentPosition, final int candidateOffset){
-        return BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == 1);
+        return BoardUtils.EIGHTH_COLUMN[currentPosition] && (candidateOffset == 9 || candidateOffset == -7|| candidateOffset == 1);
     }
 }
